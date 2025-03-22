@@ -1,0 +1,37 @@
+.main-form {
+    width: 600px;
+    height: 350px;
+    background-color: bisque;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    padding: 20px;
+    font-weight: bold;
+}
+
+input {
+    height: 30px;
+}
+
+textarea, input {
+    width: 92%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 15px;
+    font-size: 16px;
+}
+
+.main-form button {
+    margin-left: 15px;
+    width: 45%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}

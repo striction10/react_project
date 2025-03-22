@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "./Cart";
 import supabase from "../supabaseClient";
+import "./CategoryProducts.css"
 
 function CategoryProducts() {
     const { id } = useParams();
@@ -43,12 +44,13 @@ function CategoryProducts() {
     return (
         <div>
             <h1>Товар категорий</h1>
-            <div>
+            <div class="cart-category-container">
                 {products.map((product) => (
                     <div key={product.id}>
                         <h2>{product.name}</h2>
+                        <img src={product.product_img} width="100px"></img>
                         <p>{product.description}</p>
-                        <p>Цена: {product.price}$</p>
+                        <p>Цена: {product.price}руб.</p>
                         <div>
                             <button onClick={() => addToCart(product)}>Добавить в корзину</button>
                         </div>

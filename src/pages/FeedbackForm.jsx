@@ -1,18 +1,36 @@
 import { useState } from "react";
 import FeedbackFormPortal from "../components/FeedbackFormPortal";
+import supabase from "../supabaseClient";
+import "../pages/Feedback.css"
 
 const FeedbackForm = ({ onClose }) => {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+    
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Отправлено: ", { name, message });
-        alert(`Спасибо, ${name}! Ваше сообщение отправлено!`);
-        onClose();
+        setIsSubmitting(true);
+        setError(null);
+        try {
+            const { data, error } = await supabase.from("feedback").insert([{ name, message}]);
+            if (error) {
+                throw new Error(error.message);
+            }
+            alert(`Спасибо, ${name}! Ваше сообщение отправлено!`);
+            onClose();
+        }
+        catch (err) {
+            setError(err.message);
+        }
+        finally {
+            setIsSubmitting(false);
+        }
     };
     return (
-        <div>
+        <div class="main-form">
             <div>
                 <h2>Форма обратной связи</h2>
                 <form onSubmit={handleSubmit}>
@@ -25,29 +43,13 @@ const FeedbackForm = ({ onClose }) => {
                         <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} required></textarea>
                     </div>
                     <div>
-                        <button type="submit">Отправить</button>
+                        <button type="submit" disabled={isSubmitting}>Отправить</button>
                         <button type="button" onClick={onClose}>Закрыть</button>
                     </div>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-const App = () => {
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const openForm = () => setIsFormOpen(true);
-    const closeForm = () => setIsFormOpen(false);
-
-    return (
-        <div>
-            <h1>Добро пожаловать!</h1>
-            <div>
-                <button onClick={openForm}>Открыть форму обратной связи</button>
-            </div>
-            <FeedbackFormPortal isOpen={isFormOpen} onClose={closeForm}></FeedbackFormPortal>
-        </div>
-    )
-} 
-
-export default App;
+export default FeedbackForm;

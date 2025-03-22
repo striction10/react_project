@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import supabase from "../supabaseClient";
+import "../pages/Catalog.css"
 
 function Catalog() {
     const [categories, setCategories] = useState([]);
